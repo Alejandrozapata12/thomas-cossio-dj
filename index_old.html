@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DJ Client | Premium Event Experiences</title>
+    <!-- Tailwind CSS v3 with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts: Space Grotesk -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <script data-purpose="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#930df2',
+                        dark: '#0a0a0a',
+                        surface: '#121212',
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'custom': '8px',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style data-purpose="custom-typography">
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 10px rgba(147, 13, 242, 0.5), 0 0 20px rgba(147, 13, 242, 0.3);
+        }
+
+        .glass-effect {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+    <style data-purpose="custom-elements">
+        /* Custom button hover transitions */
+        .btn-primary {
+            transition: all 0.3s ease;
+            background: #930df2;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(147, 13, 242, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Input focus styles */
+        .form-input:focus {
+            border-color: #930df2 !important;
+            ring-color: #930df2 !important;
+        }
+    </style>
+    <style>
+        .text-neon {
+            text-shadow: 0 0 10px rgba(147, 13, 242, 0.8), 0 0 20px rgba(147, 13, 242, 0.4);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-white selection:bg-primary selection:text-white">
+    <!-- BEGIN: Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold tracking-tighter text-white">THOMAS<span
+                            class="text-primary">COSSIO</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8 uppercase text-sm tracking-widest font-medium"><a
+                            class="hover:text-primary transition-colors" href="#home">Inicio</a><a
+                            class="hover:text-primary transition-colors" href="#about">Sobre Mí</a><a
+                            class="hover:text-primary transition-colors" href="#services">Servicios</a><a
+                            class="hover:text-primary transition-colors" href="#videos">Experiencia</a><a
+                            class="hover:text-primary transition-colors" href="#recursos">Recursos</a><a
+                            class="px-5 py-2 bg-primary rounded-custom hover:bg-opacity-90 transition-all text-white"
+                            href="#contact">Reservar</a></div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-white hover:text-primary focus:outline-none" id="mobile-menu-button"
+                        type="button">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- END: Navigation -->
+    <!-- BEGIN: HeroSection -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden" id="home">
+        <!-- Atmospheric background image -->
+        <div class="absolute inset-0 z-0">
+            <img alt="DJ Performance Atmosphere" class="w-full h-full object-cover opacity-40"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDclSn71sd9FI3GjAU6c93yZbNOgZOAOL8sV5G6u7_ysDwKJKxxMoUO_1luVXQZLvNWOUwaaOV4D2Ydh7dIyqCQAHd7_hnrkocr_Et3Ko1CXqsmafX9Oj9-0_ycRv3QAtLz1ciOehpXaJMfgpEiO-JSGJvUbrVffJAyrAHqYgz0rTECdDQ8T7x_mxvRWbEIDg293YuPy_WXVo48Ic5YtIc6D8Lxz_qvg5TUuWm2NdffFLqTB_sK2rMUb3Pl5unei3lbw5qA_qbssMpD" />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-dark"></div>
+        </div>
+        <!-- Decorative glow elements -->
+        <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary opacity-20 blur-[120px] animate-pulse-slow"></div>
+        <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary opacity-10 blur-[120px] animate-pulse-slow">
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center"><span
+                class="inline-block py-1 px-3 mb-6 border border-primary/40 rounded-full text-xs font-semibold tracking-widest text-primary uppercase bg-primary/5">La
+                Experiencia Definitiva de Sonido</span>
+            <h1 class="text-5xl md:text-8xl font-bold mb-8 tracking-tighter neon-glow leading-tight">ELEVA TU <br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">ATMÓSFERA</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto font-light leading-relaxed">Performance
+                de DJ premium, ingeniería de sonido de alta gama y animación profesional para quienes exigen la
+                excelencia.</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4"><a
+                    class="btn-primary px-10 py-4 rounded-custom text-lg font-bold w-full sm:w-auto text-white"
+                    href="#contact">Asegura Tu Fecha</a><a
+                    class="px-10 py-4 border border-white/20 rounded-custom text-lg font-bold hover:bg-white/5 transition-all w-full sm:w-auto text-white"
+                    href="#services">Explorar Servicios</a></div>
+        </div>
+    </section>
+    <!-- END: HeroSection -->
+    <!-- BEGIN: AboutSection -->
+    <section class="py-24 bg-surface relative" id="about">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"><!-- Carousel -->
+                <div class="relative group overflow-hidden rounded-custom border border-white/10 aspect-[4/5]">
+                    <div class="flex transition-transform duration-500 ease-out h-full" id="carousel-inner"><img
+                            class="w-full h-full object-cover flex-shrink-0"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB79G8qvW_oP2U8mZAQlw87pQ5wD7iujON4hl_s7Q_DfbGpEWXlmvC0rsaQ8JnGUhrY20mny2jGh0Kjdi2gRRjjcKzQULEYYd0xvMp5vrmUrfU9OaeMWJANN2eofv5OLIFX5Ybk9UPJV_feaacqzyWB9ZzedoU3V93CCkAq5wu9IU-poMGLV1x6RhNYtQ0_3oxooaZeOP57oFo8P6jG0cVJQM4FJk0G6MAQMG72olb1bP_NOSJKCExjNFJjVPxcFGIlodfGjcX-u8wZ" /><img
+                            class="w-full h-full object-cover flex-shrink-0"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoqwRflJdVH0bjpBkKbkjDODSKXRBLTS9PJZJ0XUQ7Vz19LigIl0eYvS34nTnxIWjZ190TWKkxcWwtfpsJIWRUadzV2NZDv64AedAUJMRqXD_OLBCLa1LwhxOMtn45rtWAvwH-6YeGeln6qUBnM1FPDuIkSP7g-0JoKlUzl8yZvFP6TzIy7K6UUx1I6O1iNy5BSKW7Ht1Zu4uKirJOHiJnro5CspmfrvwDiUM7neFmQHjj5rTJfy4Glafk1DznFzwAYzxkw3NClP_6" /><img
+                            class="w-full h-full object-cover flex-shrink-0"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA4ATcaBxkZdWZTRej69liMOpsuHTIakfI8o5RzLvgkyYHqPIlCCthq_OVHgEOOl3cf0fFe0NkW3A96XcMRtRIGIMx5k5bUGg_7BjwZ8ryqaOIDnPUVzDYgqIMJgpX1BBycOpm3cc9cBQdBV--dRoD9VRznd47NmipJUgOBkx-0x8rYoCnljHsSbZFWStlA-o3G7a6JFoZ4XITycAT-iibylktXeFhfSppvkEmYbaUX_ZDPOtjLiH_p0PQ17f0QJ54wWCoXsmO7ktj" />
+                    </div>
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2"><button
+                            class="w-2 h-2 rounded-full bg-white/50" onclick="moveCarousel(0)"></button><button
+                            class="w-2 h-2 rounded-full bg-white/50" onclick="moveCarousel(1)"></button><button
+                            class="w-2 h-2 rounded-full bg-white/50" onclick="moveCarousel(2)"></button></div>
+                </div><!-- Content -->
+                <div data-purpose="about-content">
+                    <h2 class="text-primary font-bold tracking-widest uppercase text-sm mb-4">Tras las bandejas</h2>
+                    <h3 class="text-4xl md:text-5xl font-bold mb-8 leading-tight">Creando Recuerdos a través del Sonido.
+                    </h3>
+                    <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
+                        <p>Con más de una década de experiencia en el circuito internacional de clubes y eventos
+                            privados de lujo, <span class="text-white font-semibold">Thomas Cossio</span> aporta más que
+                            solo música; trae una identidad sonora curada para cada ocasión.</p>
+                        <p>Mi filosofía es simple: Cada evento tiene un latido. Mi trabajo es encontrarlo, amplificarlo
+                            y mantenerlo acelerado hasta que caiga el último beat. Desde bodas íntimas de alto nivel
+                            hasta galas corporativas masivas.</p>
+                    </div>
+                    <div class="mt-10 grid grid-cols-2 gap-8 border-t border-white/10 pt-10">
+                        <div>
+                            <p class="text-3xl font-bold text-white mb-1">500+</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-widest">Eventos Realizados</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-white mb-1">10 Años</p>
+                            <p class="text-sm text-gray-500 uppercase tracking-widest">de Experiencia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: AboutSection -->
+    <!-- BEGIN: ServicesSection -->
+    <section class="py-24 bg-dark" id="services">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-primary font-bold tracking-widest uppercase text-sm mb-4">Ofertas Profesionales</h2>
+                <h3 class="text-4xl md:text-5xl font-bold">La Experiencia Completa</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="glass-effect p-8 rounded-custom group hover:border-primary/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-custom flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path
+                                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4">DJ Performance</h4>
+                    <p class="text-gray-400 leading-relaxed mb-6">Expertly curated sets ranging from deep house and
+                        lounge to chart-topping anthems. Seamless transitions and crowd-reading excellence.</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Open Format Sets</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Custom Playlists</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Live Remixing</li>
+                    </ul>
+                </div>
+                <!-- Service Card 2 -->
+                <div class="glass-effect p-8 rounded-custom group hover:border-primary/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-custom flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path
+                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4">Event Hosting</h4>
+                    <p class="text-gray-400 leading-relaxed mb-6">Professional MC services to guide your event flow.
+                        Eloquent, charismatic, and perfectly paced to match your event's energy.</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Professional MC</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Itinerary Coordination</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Engagement Focus</li>
+                    </ul>
+                </div>
+                <!-- Service Card 3 -->
+                <div class="glass-effect p-8 rounded-custom group hover:border-primary/50 transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-custom flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                            <path
+                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4">Sound Setup</h4>
+                    <p class="text-gray-400 leading-relaxed mb-6">Crystal clear audio with industry-standard hardware.
+                        Custom-tailored sound solutions for venues of all sizes.</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span> Pro
+                            Grade P.A. Systems</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Wireless Microphones</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
+                            Stage Monitor Setup</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-dark py-24 px-6 lg:px-20 overflow-hidden" id="gallery">
+        <div class="mx-auto max-w-7xl">
+            <div class="mb-16 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+                <div>
+                    <h2 class="text-primary font-bold tracking-widest uppercase text-sm mb-4">The Atmosphere</h2>
+                    <h3 class="text-4xl font-black text-white lg:text-5xl tracking-tight">Moments in <span
+                            class="text-neon text-primary">Sound</span></h3>
+                    <p class="mt-4 max-w-md text-gray-400">Captured live from the world's most iconic stages.
+                        High-intensity visuals meet raw electronic power.</p>
+                </div>
+                <button class="text-sm font-bold uppercase tracking-widest text-primary hover:underline">View All
+                    Gallery</button>
+            </div>
+            <div class="relative overflow-hidden rounded-custom border border-white/10">
+                <div class="flex transition-transform duration-700 ease-in-out" id="gallery-carousel">
+                    <div class="min-w-full h-[500px]"><img alt="Performance 1" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoqwRflJdVH0bjpBkKbkjDODSKXRBLTS9PJZJ0XUQ7Vz19LigIl0eYvS34nTnxIWjZ190TWKkxcWwtfpsJIWRUadzV2NZDv64AedAUJMRqXD_OLBCLa1LwhxOMtn45rtWAvwH-6YeGeln6qUBnM1FPDuIkSP7g-0JoKlUzl8yZvFP6TzIy7K6UUx1I6O1iNy5BSKW7Ht1Zu4uKirJOHiJnro5CspmfrvwDiUM7neFmQHjj5rTJfy4Glafk1DznFzwAYzxkw3NClP_6" />
+                    </div>
+                    <div class="min-w-full h-[500px]"><img alt="Performance 2" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA4ATcaBxkZdWZTRej69liMOpsuHTIakfI8o5RzLvgkyYHqPIlCCthq_OVHgEOOl3cf0fFe0NkW3A96XcMRtRIGIMx5k5bUGg_7BjwZ8ryqaOIDnPUVzDYgqIMJgpX1BBycOpm3cc9cBQdBV--dRoD9VRznd47NmipJUgOBkx-0x8rYoCnljHsSbZFWStlA-o3G7a6JFoZ4XITycAT-iibylktXeFhfSppvkEmYbaUX_ZDPOtjLiH_p0PQ17f0QJ54wWCoXsmO7ktj" />
+                    </div>
+                    <div class="min-w-full h-[500px]"><img alt="Performance 3" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZxCEVKT3LJC6lhYEWE9Rwsi7KYS65hr4iM4ajVNrGv_JrzJZp9ymAkwyiaGwEuFTMj732xvlIVNtZytttfZY22_g5ctgaKuMxxyLPRqbdaxbm6yqN0GctfocltjTruWlQhHnkyN8CLnpVue2_fjgJtw6Hn-aR5SwSVCSBavgHOoHeIUMbSpAT8RUCjRMRPtsI5M5CV90XMHuf4KCT31mQkqBLG7BoHWLkj8jOGxsbpCgzW_hEfQJTr30tE0lWNTERQjVrsr8EJLXO" />
+                    </div>
+                </div>
+                <script>let currentSlide = 0; setInterval(() => { const carousel = document.getElementById('gallery-carousel'); currentSlide = (currentSlide + 1) % 3; carousel.style.transform = `translateX(-${currentSlide * 100}%)`; }, 4000);</script>
+            </div>
+        </div>
+    </section>
+    <!-- END: ServicesSection -->
+    <!-- BEGIN: YouTubeVideoSection -->
+    <section class="py-24 bg-surface" id="videos">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <h2 class="text-primary font-bold tracking-widest uppercase text-sm mb-4">The Performance</h2>
+                    <h3 class="text-4xl font-bold">Live from the Stage</h3>
+                </div>
+                <a class="text-primary font-bold border-b-2 border-primary/30 hover:border-primary transition-all pb-1"
+                    href="#">View All Highlights</a>
+            </div><!-- Section separator space adjustment for offset cards -->
+            <div class="h-12 hidden lg:block"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Video Embed 1 -->
+                <div class="aspect-video rounded-custom overflow-hidden bg-dark border border-white/5 relative group">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-all cursor-pointer">
+                        <div
+                            class="w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center text-white transform group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 ml-1" fill="currentColor" viewbox="0 0 20 20">
+                                <path
+                                    d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.841z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <img alt="Video Thumbnail" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXXwW_kgSoX3YeFiEyxLcorqsB3yutv6iOwrmdpbU5zNbo-WkzyTiFZv-GIw7xfFc-n7OYieEbHDik2FoWnZvXPZLZVlDyLXbAfrQoNNkHvtPqupw1V8EcDXbnEFyyc5l_5Xt2KJVWHkm4S2PYvQ1z5Xt0r5xw8fg3ooUmiLOhybx5Oz0_pKqNZ_e-YkjG-16MswFIUbMtbYnJ6irf5QQXzN4ASkcXbkdyUZo5M9s0C1BuifDC8JPTK4KN_HrS42vx4HEBQNGUwJuC" />
+                    <div class="absolute bottom-6 left-6">
+                        <p class="font-bold text-lg">Main Stage Residency 2023</p>
+                        <p class="text-sm text-white/60">6.2k Views • 12:45 min</p>
+                    </div>
+                </div>
+                <!-- Video Embed 2 -->
+                <div class="aspect-video rounded-custom overflow-hidden bg-dark border border-white/5 relative group">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-all cursor-pointer">
+                        <div
+                            class="w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center text-white transform group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8 ml-1" fill="currentColor" viewbox="0 0 20 20">
+                                <path
+                                    d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.841z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <img alt="Video Thumbnail" class="w-full h-full object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvhOlNZB6wzOvLh1O6WkGcR3L3BLDSuMaGMQa3XubDUrC1I7U-jSJ3o6NAOCs6BXJ25iIQyOl8pFNpjMGSXHxgsgCAtg51CWL5ECyHtox6xe_Rrun5Y-buwxcTfMS81Z-3LSWb4A-6ZX_BJiwis7_iA8YxNYf7duZdWeriwHfGEPmrpBDfoUhRzf0cYRi3sYLpCTg7OA5BQaFsHeuTtq7VAqWxQetK6O4dJrusDPXchQc57kGgztG6GpZEj6IXmk7o-uUDGZ3moyi" />
+                    <div class="absolute bottom-6 left-6">
+                        <p class="font-bold text-lg">Corporate Gala - Yacht Club</p>
+                        <p class="text-sm text-white/60">3.1k Views • 08:20 min</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-24 bg-dark" id="recursos">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-primary font-bold tracking-widest uppercase text-sm mb-4">Explora Más</h2>
+                <h3 class="text-4xl md:text-5xl font-bold">Recursos y Galería</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-effect p-8 rounded-custom group hover:border-primary/50 transition-all duration-300 cursor-pointer relative overflow-hidden h-64 flex flex-col justify-end"
+                    onclick="openModal('modal-gallery')">
+                    <div class="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity bg-cover bg-center"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCoqwRflJdVH0bjpBkKbkjDODSKXRBLTS9PJZJ0XUQ7Vz19LigIl0eYvS34nTnxIWjZ190TWKkxcWwtfpsJIWRUadzV2NZDv64AedAUJMRqXD_OLBCLa1LwhxOMtn45rtWAvwH-6YeGeln6qUBnM1FPDuIkSP7g-0JoKlUzl8yZvFP6TzIy7K6UUx1I6O1iNy5BSKW7Ht1Zu4uKirJOHiJnro5CspmfrvwDiUM7neFmQHjj5rTJfy4Glafk1DznFzwAYzxkw3NClP_6')">
+                    </div>
+                    <div class="relative z-10">
+                        <h4 class="text-2xl font-bold mb-2">Galería de Performance</h4>
+                        <p class="text-gray-400">Visuales en vivo y Riders técnicos.</p>
+                    </div>
+                </div>
+                <div class="glass-effect p-8 rounded-custom group hover:border-primary/50 transition-all duration-300 cursor-pointer relative overflow-hidden h-64 flex flex-col justify-end"
+                    onclick="openModal('modal-resources')">
+                    <div class="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity bg-cover bg-center"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZxCEVKT3LJC6lhYEWE9Rwsi7KYS65hr4iM4ajVNrGv_JrzJZp9ymAkwyiaGwEuFTMj732xvlIVNtZytttfZY22_g5ctgaKuMxxyLPRqbdaxbm6yqN0GctfocltjTruWlQhHnkyN8CLnpVue2_fjgJtw6Hn-aR5SwSVCSBavgHOoHeIUMbSpAT8RUCjRMRPtsI5M5CV90XMHuf4KCT31mQkqBLG7BoHWLkj8jOGxsbpCgzW_hEfQJTr30tE0lWNTERQjVrsr8EJLXO')">
+                    </div>
+                    <div class="relative z-10">
+                        <h4 class="text-2xl font-bold mb-2">Recursos de Eventos</h4>
+                        <p class="text-gray-400">Contratos, equipos y logística.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: YouTubeVideoSection -->
+    <!-- BEGIN: ContactSection -->
+    <section class="py-24 bg-dark" id="contact">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-primary font-bold tracking-widest uppercase text-sm mb-4">Contacto</h2>
+                    <h3 class="text-4xl md:text-5xl font-bold mb-8">¿Listo para empezar el show?</h3>
+                    <p class="text-gray-400 text-lg mb-10 leading-relaxed">Completa el formulario para solicitar una
+                        cotización o consultar disponibilidad. Respondo típicamente en 24 horas.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div
+                                class="w-12 h-12 bg-surface rounded-custom flex items-center justify-center border border-white/10 text-primary">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                                </svg></div><span class="text-lg">Medellín, Colombia</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div
+                                class="w-12 h-12 bg-surface rounded-custom flex items-center justify-center border border-white/10 text-primary">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                                    <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5"></path>
+                                </svg></div><span class="text-lg">Medellín, Colombia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-effect p-8 md:p-10 rounded-custom">
+                    <form class="space-y-6" id="contact-form">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><label class="block text-sm font-medium text-gray-400 mb-2" for="name">Nombre
+                                    Completo</label><input
+                                    class="w-full bg-dark border-white/10 rounded-custom py-3 px-4 text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                    id="name" name="name" placeholder="Tu nombre" required="" type="text" /></div>
+                            <div><label class="block text-sm font-medium text-gray-400 mb-2" for="email">Correo
+                                    Electrónico</label><input
+                                    class="w-full bg-dark border-white/10 rounded-custom py-3 px-4 text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                    id="email" name="email" placeholder="ejemplo@correo.com" required="" type="email" />
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><label class="block text-sm font-medium text-gray-400 mb-2" for="event-date">Fecha del
+                                    Evento</label><input
+                                    class="w-full bg-dark border-white/10 rounded-custom py-3 px-4 text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                    id="event-date" name="event-date" type="date" /></div>
+                            <div><label class="block text-sm font-medium text-gray-400 mb-2" for="service-type">Servicio
+                                    Requerido</label><select
+                                    class="w-full bg-dark border-white/10 rounded-custom py-3 px-4 text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                    id="service-type" name="service-type">
+                                    <option>Performance DJ</option>
+                                    <option>Animación de Eventos</option>
+                                    <option>Setup de Sonido</option>
+                                    <option>Paquete Premium Completo</option>
+                                </select></div>
+                        </div>
+                        <div><label class="block text-sm font-medium text-gray-400 mb-2" for="message">Detalles del
+                                Evento</label><textarea
+                                class="w-full bg-dark border-white/10 rounded-custom py-3 px-4 text-white focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                                id="message" name="message" placeholder="Cuéntame más sobre tu visión..."
+                                rows="4"></textarea></div><button
+                            class="w-full btn-primary py-4 rounded-custom font-bold text-lg text-white"
+                            type="submit">Enviar Consulta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: ContactSection -->
+    <!-- BEGIN: Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <span class="text-3xl font-bold tracking-tighter text-white mb-6 block">THOMAS<span
+                            class="text-primary">COSSIO</span></span>
+                    <p class="text-gray-500 max-w-sm leading-relaxed">
+                        Defining the sound of premium events worldwide. Professional entertainment tailored to your
+                        specific vision.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Navegación</h4>
+                    <ul class="space-y-4 text-gray-500">
+                        <li><a class="hover:text-primary transition-colors" href="#home">Home</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#about">About</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#services">Services</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#videos">Experience</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-widest text-sm">Navegación</h4>
+                    <div class="flex space-x-4"><a
+                            class="w-10 h-10 bg-surface border border-white/10 rounded-custom flex items-center justify-center hover:bg-primary transition-colors"
+                            href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.063-2.633-.333-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.063-1.366.333-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z">
+                                </path>
+                            </svg></a><a
+                            class="w-10 h-10 bg-surface border border-white/10 rounded-custom flex items-center justify-center hover:bg-primary transition-colors"
+                            href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
+                                </path>
+                            </svg></a><a
+                            class="w-10 h-10 bg-surface border border-white/10 rounded-custom flex items-center justify-center hover:bg-primary transition-colors"
+                            href="#"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z">
+                                </path>
+                            </svg></a></div>
+                </div>
+            </div>
+            <div
+                class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-600 uppercase tracking-widest">
+                <p>© 2023 Thomas Cossio Entertainment. All Rights Reserved.</p>
+                <div class="flex space-x-6">
+                    <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+    <script data-purpose="mobile-menu-logic">
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const nav = document.querySelector('nav .md\\:block');
+
+        // Simplistic mobile menu toggle for demo
+        menuBtn.addEventListener('click', () => {
+            alert('Mobile menu clicked. In a full implementation, this would toggle a slide-over menu.');
+        });
+    </script>
+    <script data-purpose="form-handling">
+        document.getElementById('contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const originalText = btn.innerText;
+
+            btn.innerText = 'Sending...';
+            btn.disabled = true;
+
+            // Simulate form submission
+            setTimeout(() => {
+                alert('Thank you! Your inquiry has been sent. DJ Client will contact you shortly.');
+                btn.innerText = originalText;
+                btn.disabled = false;
+                this.reset();
+            }, 1500);
+        });
+    </script>
+    <!-- Modals -->
+    <div class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md overflow-y-auto" id="modal-gallery">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="glass-effect max-w-4xl w-full p-8 rounded-custom relative"><button
+                    class="absolute top-4 right-4 text-white hover:text-primary"
+                    onclick="closeModal('modal-gallery')"><svg class="w-8 h-8" fill="none" stroke="currentColor"
+                        viewbox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        </path>
+                    </svg></button>
+                <h2 class="text-3xl font-bold mb-8">Galería y Riders</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"><img
+                        class="rounded-custom aspect-video object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoqwRflJdVH0bjpBkKbkjDODSKXRBLTS9PJZJ0XUQ7Vz19LigIl0eYvS34nTnxIWjZ190TWKkxcWwtfpsJIWRUadzV2NZDv64AedAUJMRqXD_OLBCLa1LwhxOMtn45rtWAvwH-6YeGeln6qUBnM1FPDuIkSP7g-0JoKlUzl8yZvFP6TzIy7K6UUx1I6O1iNy5BSKW7Ht1Zu4uKirJOHiJnro5CspmfrvwDiUM7neFmQHjj5rTJfy4Glafk1DznFzwAYzxkw3NClP_6" /><img
+                        class="rounded-custom aspect-video object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA4ATcaBxkZdWZTRej69liMOpsuHTIakfI8o5RzLvgkyYHqPIlCCthq_OVHgEOOl3cf0fFe0NkW3A96XcMRtRIGIMx5k5bUGg_7BjwZ8ryqaOIDnPUVzDYgqIMJgpX1BBycOpm3cc9cBQdBV--dRoD9VRznd47NmipJUgOBkx-0x8rYoCnljHsSbZFWStlA-o3G7a6JFoZ4XITycAT-iibylktXeFhfSppvkEmYbaUX_ZDPOtjLiH_p0PQ17f0QJ54wWCoXsmO7ktj" /><img
+                        class="rounded-custom aspect-video object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZxCEVKT3LJC6lhYEWE9Rwsi7KYS65hr4iM4ajVNrGv_JrzJZp9ymAkwyiaGwEuFTMj732xvlIVNtZytttfZY22_g5ctgaKuMxxyLPRqbdaxbm6yqN0GctfocltjTruWlQhHnkyN8CLnpVue2_fjgJtw6Hn-aR5SwSVCSBavgHOoHeIUMbSpAT8RUCjRMRPtsI5M5CV90XMHuf4KCT31mQkqBLG7BoHWLkj8jOGxsbpCgzW_hEfQJTr30tE0lWNTERQjVrsr8EJLXO" />
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-custom border border-white/10">
+                        <span class="font-medium">Rider Técnico 2024</span><button
+                            class="px-6 py-2 bg-primary rounded-custom text-sm font-bold">Descargar PDF</button></div>
+                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-custom border border-white/10">
+                        <span class="font-medium">Presentación Comercial</span><button
+                            class="px-6 py-2 bg-primary rounded-custom text-sm font-bold">Descargar PDF</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-md overflow-y-auto" id="modal-resources">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="glass-effect max-w-4xl w-full p-8 rounded-custom relative"><button
+                    class="absolute top-4 right-4 text-white hover:text-primary"
+                    onclick="closeModal('modal-resources')"><svg class="w-8 h-8" fill="none" stroke="currentColor"
+                        viewbox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        </path>
+                    </svg></button>
+                <h2 class="text-3xl font-bold mb-8">Recursos y Logística</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"><img
+                        class="rounded-custom aspect-video object-cover"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDclSn71sd9FI3GjAU6c93yZbNOgZOAOL8sV5G6u7_ysDwKJKxxMoUO_1luVXQZLvNWOUwaaOV4D2Ydh7dIyqCQAHd7_hnrkocr_Et3Ko1CXqsmafX9Oj9-0_ycRv3QAtLz1ciOehpXaJMfgpEiO-JSGJvUbrVffJAyrAHqYgz0rTECdDQ8T7x_mxvRWbEIDg293YuPy_WXVo48Ic5YtIc6D8Lxz_qvg5TUuWm2NdffFLqTB_sK2rMUb3Pl5unei3lbw5qA_qbssMpD" />
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-custom border border-white/10">
+                        <span class="font-medium">Contrato Modelo de Prestación de Servicios</span><button
+                            class="px-6 py-2 bg-primary rounded-custom text-sm font-bold">Descargar PDF</button></div>
+                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-custom border border-white/10">
+                        <span class="font-medium">Lista de Equipamiento Completa</span><button
+                            class="px-6 py-2 bg-primary rounded-custom text-sm font-bold">Descargar PDF</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.style.overflow = 'hidden' } function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.body.style.overflow = 'auto' } function moveCarousel(idx) { const inner = document.getElementById('carousel-inner'); inner.style.transform = `translateX(-${idx * 100}%)` }</script>
+</body>
+
+</html>

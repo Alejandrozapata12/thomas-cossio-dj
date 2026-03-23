@@ -1738,7 +1738,7 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gray-900);
+  background: var(--gray-200);
   transition: opacity .6s var(--ease), visibility .6s var(--ease);
 }
 .preloader.hidden {

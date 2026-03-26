@@ -929,8 +929,8 @@
             </div>
           </div>
 
-          <form class="contacto-form reveal-up" style="--delay:.2s" id="contactForm" 
-            aria-label="Formulario de contacto" action="https://api.web3forms.com/submit" method="POST">
+          <form action="https://api.web3forms.com/submit" method="POST" class="contacto-form reveal-up" style="--delay:.2s" id="contactForm" 
+            aria-label="Formulario de contacto">
             <input type="hidden" name="access_key" value="7e07b158-d74a-4e8c-9952-a8c7093c080b">
 
             <div class="form-row">
@@ -949,12 +949,9 @@
               <label for="evento">Tipo de evento</label>
               <select id="evento" name="evento" required>
                 <option value="">Selecciona una opción</option>
-                <option value="boda">Boda / Matrimonio</option>
-                <option value="corporativo">Evento Corporativo</option>
                 <option value="privado">Fiesta Privada</option>
                 <option value="club">Club / Bar</option>
                 <option value="festival">Festival</option>
-                <option value="otro">Otro</option>
               </select>
               <span class="form-err" role="alert"></span>
             </div>

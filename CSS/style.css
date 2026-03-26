@@ -944,7 +944,7 @@ ul {
 
   .photo-placeholder {
     max-width: 100%;
-    aspect-ratio: 3/2;
+    aspect-ratio: 6/9;
   }
 
   .photo-initials {
@@ -2837,7 +2837,7 @@ ul {
 
   .photo-placeholder {
     max-width: 100%;
-    aspect-ratio: 16/9;
+    aspect-ratio: 6/9;
   }
 
   .photo-initials {

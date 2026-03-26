@@ -1782,7 +1782,7 @@ ul { list-style: none; }
 }
 
 .pl-logo {
-  width: 92px; height: 92px;
+  width: 120px; height: 120px;
   border-radius: 18px;
   display: grid;
   place-items: center;
@@ -1792,7 +1792,7 @@ ul { list-style: none; }
   color: #fff;
   margin-bottom: .5rem;
   box-shadow: 0 0 40px rgba(139,99,224,.5);
-  animation: plLogoPulse 2s ease-in-out infinite;
+  animation: plLogoPulse 2s ease-in-out infinite;  
 }
 @keyframes plLogoPulse {
   0%, 100% { box-shadow: 0 0 30px rgba(139,99,224,.4); }

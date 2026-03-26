@@ -1803,6 +1803,11 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   line-height: 1.05;
+
+  img{
+    width: 200px;
+    height: 200px
+  }
 }
 .pl-first {
   font-family: var(--font-display);

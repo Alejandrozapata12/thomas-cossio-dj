@@ -787,3 +787,138 @@ startxref
     });
   });
 })();
+
+
+/* ═══ 11. GALERÍA CAROUSEL ═══ */
+(function initGaleriaCarousel() {
+  const track    = qs('#gcTrack');
+  if (!track) return;
+
+  const slides   = qsa('.gc-slide', track);
+  const dots     = qsa('.gc-dot');
+  const prevBtn  = qs('#gcPrev');
+  const nextBtn  = qs('#gcNext');
+  const bar      = qs('#gcProgressBar');
+  const current  = qs('#gcCurrent');
+
+  const TOTAL    = slides.length;
+  const INTERVAL = 5000; // ms entre slides
+
+  let idx        = 0;
+  let timer      = null;
+  let progTimer  = null;
+  let paused     = false;
+  let startX     = 0;
+
+  /* ── Ir a slide ── */
+  function goTo(next) {
+    const prev = idx;
+    if (next === prev) return;
+
+    // Salida del slide actual
+    slides[prev].classList.add('leaving');
+    slides[prev].classList.remove('active');
+
+    // Entrada del nuevo
+    idx = (next + TOTAL) % TOTAL;
+    slides[idx].classList.add('active');
+
+    // Limpiar leaving después de la transición
+    setTimeout(() => {
+      slides[prev].classList.remove('leaving');
+    }, 1000);
+
+    // Actualizar dots
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+      d.setAttribute('aria-selected', i === idx);
+    });
+
+    // Actualizar contador
+    if (current) {
+      current.textContent = String(idx + 1).padStart(2, '0');
+    }
+
+    // Reiniciar progreso
+    resetProgress();
+  }
+
+  /* ── Progreso ── */
+  function resetProgress() {
+    if (!bar) return;
+    clearTimeout(progTimer);
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    // Pequeño delay para que el browser pinte el reset
+    progTimer = setTimeout(() => {
+      bar.style.transition = `width ${INTERVAL}ms linear`;
+      bar.style.width = '100%';
+    }, 30);
+  }
+
+  /* ── Autoplay ── */
+  function startAutoplay() {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (!paused) goTo(idx + 1);
+    }, INTERVAL);
+    resetProgress();
+  }
+
+  function stopAutoplay() {
+    clearInterval(timer);
+    clearTimeout(progTimer);
+    if (bar) {
+      bar.style.transition = 'none';
+    }
+  }
+
+  /* ── Controles ── */
+  on(nextBtn, 'click', () => { goTo(idx + 1); startAutoplay(); });
+  on(prevBtn, 'click', () => { goTo(idx - 1); startAutoplay(); });
+
+  dots.forEach(dot => {
+    on(dot, 'click', () => {
+      goTo(parseInt(dot.dataset.index, 10));
+      startAutoplay();
+    });
+  });
+
+  /* ── Pausar en hover ── */
+  const carousel = track.closest('.galeria-carousel');
+  on(carousel, 'mouseenter', () => {
+    paused = true;
+    if (bar) bar.style.animationPlayState = 'paused';
+  });
+  on(carousel, 'mouseleave', () => {
+    paused = false;
+    if (bar) bar.style.animationPlayState = 'running';
+  });
+
+  /* ── Swipe táctil ── */
+  on(carousel, 'touchstart', e => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  on(carousel, 'touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? goTo(idx + 1) : goTo(idx - 1);
+      startAutoplay();
+    }
+  }, { passive: true });
+
+  /* ── Teclado (accesibilidad) ── */
+  on(document, 'keydown', e => {
+    if (e.key === 'ArrowRight') { goTo(idx + 1); startAutoplay(); }
+    if (e.key === 'ArrowLeft')  { goTo(idx - 1); startAutoplay(); }
+  });
+
+  /* ── Pausa si el tab no está visible ── */
+  on(document, 'visibilitychange', () => {
+    document.hidden ? stopAutoplay() : startAutoplay();
+  });
+
+  /* ── Init ── */
+  startAutoplay();
+})();

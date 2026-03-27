@@ -2989,8 +2989,7 @@ ul {
 
   /* Sobre stats – tighter on mobile */
   .stat-card {
-    padding: 1rem .75rem;
-  }
+    margin-left: 2rem;
 
   .stat-num {
     font-size: 1.8rem;

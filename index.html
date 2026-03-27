@@ -76,6 +76,38 @@
     </ul>
   </nav>
 
+  <!-- Mobile drawer (fuera del nav) -->
+  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <div class="drawer-brand">
+          <span class="logo-tc">TC</span>
+          <span class="logo-name">Thomas Cossio</span>
+        </div>
+        <button class="drawer-close" id="drawerClose" aria-label="Cerrar menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="drawer-menu" role="list">
+        <li><a href="#home"      class="drawer-link" data-label="Home">Home</a></li>
+        <li><a href="#sobre"     class="drawer-link" data-label="Sobre Mí">Sobre Mí</a></li>
+        <li><a href="#servicios" class="drawer-link" data-label="Servicios">Servicios</a></li>
+        <li><a href="#videos"    class="drawer-link" data-label="Videos">Videos</a></li>
+        <li><a href="#galeria"   class="drawer-link" data-label="Galería">Galería</a></li>
+        <li><a href="#recursos"  class="drawer-link" data-label="Recursos">Recursos</a></li>
+        <li><a href="#contacto"  class="drawer-link drawer-cta">Contacto</a></li>
+      </ul>
+
+      <div class="drawer-footer">
+        <p>DJ · Medellín, Colombia</p>
+      </div>
+    </div>
+  </div>
+
   <main>
 
     <!-- ═══ AMBIENT DJ ICONS (decorative, aria-hidden) ═══ -->

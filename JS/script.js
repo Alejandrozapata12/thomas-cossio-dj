@@ -125,48 +125,76 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
 
 /* ═══ 2. NAVIGATION ═══ */
+/* ═══ 2. NAVIGATION ═══ */
 (function initNav() {
-  const nav    = qs('#nav');
-  const burger = qs('#navBurger');
-  const menu   = qs('#navMenu');
+  const nav       = qs('#nav');
+  const burger    = qs('#navBurger');
+  const drawer    = qs('#mobileDrawer');
+  const backdrop  = qs('#drawerBackdrop');
+  const closeBtn  = qs('#drawerClose');
+  const links     = qsa('.drawer-link');
 
-  // Scroll class
+  // Scroll class en nav
   const updateNav = () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   };
   updateNav();
   on(window, 'scroll', updateNav, { passive: true });
 
-  // Mobile burger toggle
-  if (burger && menu) {
-    on(burger, 'click', () => {
-      const isOpen = menu.classList.toggle('open');
-      burger.classList.toggle('open', isOpen);
-      burger.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
+  // Helpers open/close
+  function openDrawer() {
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    burger.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    closeBtn && closeBtn.focus();
+  }
 
-    // Close on link click
-    qsa('.nav-link', menu).forEach(link => {
-      on(link, 'click', () => {
-        menu.classList.remove('open');
-        burger.classList.remove('open');
-        burger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    burger && burger.focus();
+  }
 
-    // Close on Escape
+  if (burger && drawer) {
+    on(burger,   'click', openDrawer);
+    on(closeBtn, 'click', closeDrawer);
+    on(backdrop, 'click', closeDrawer);
+
+    // Cierra al hacer click en un link
+    links.forEach(link => on(link, 'click', closeDrawer));
+
+    // Cierra con Escape
     on(document, 'keydown', e => {
-      if (e.key === 'Escape' && menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        burger.classList.remove('open');
-        burger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-        burger.focus();
+      if (e.key === 'Escape' && drawer.classList.contains('open')) {
+        closeDrawer();
       }
     });
   }
+
+  // Active link en drawer (sincronizado con scroll)
+  const sections = qsa('section[id]');
+  const navLinks = qsa('.nav-link');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        [...navLinks, ...links].forEach(link => {
+          link.classList.toggle(
+            'active',
+            link.getAttribute('href') === `#${id}`
+          );
+        });
+      }
+    });
+  }, { threshold: 0.35 });
+
+  sections.forEach(sec => observer.observe(sec));
 })();
 
 

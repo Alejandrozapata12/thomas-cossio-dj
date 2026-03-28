@@ -438,111 +438,152 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
 
 /* ═══ 10. RECURSOS MODAL ═══ */
-(function initRecursosModal() {
+/* ═══ 10. RECURSOS MODAL v2 ═══ */
+(function initRecursosV2() {
 
-  /* ── DOM references ── */
-  const openBtn  = qs('#openRecursos');
-  const modal    = qs('#recursosModal');
-  const backdrop = qs('#rmBackdrop');
-  const closeBtn = qs('#rmClose');
-  const grid     = qs('#rmGrid');
-  const selText  = qs('#rmSelText');
-  const dlOne    = qs('#rmDlOne');
-  const dlZip    = qs('#rmDlZip');
-  const selAll   = qs('#rmSelectAll');
-  const filters  = qsa('.rm-filter');
+  /* ── DOM ── */
+  const modal     = qs('#rm2Modal');
+  const backdrop  = qs('#rm2Backdrop');
+  const closeBtn  = qs('#rm2Close');
+  const grid      = qs('#rm2Grid');
+  const searchEl  = qs('#rm2Search');
+  const filters   = qsa('.rm2-filter');
+  const selAll    = qs('#rm2SelectAll');
+  const selLabel  = qs('#rm2SelectLabel');
+  const selText   = qs('#rm2SelText');
+  const dlOne     = qs('#rm2DlOne');
+  const dlZip     = qs('#rm2DlZip');
+  const zipLabel  = qs('#rm2ZipLabel');
+  const emptyEl   = qs('#rm2Empty');
+
+  /* Botones de apertura */
+  const openBtns  = qsa('#openRecursos, #openRecursosPdf, #openRecursosAll');
 
   if (!modal || !grid) return;
 
-  /* ── State ── */
-  let currentFilter = 'all';
-  let allSelected   = false;
+  let activeFilter = 'all';
+  let allSelected  = false;
 
-  /* ── Open / Close ── */
-  function openModal() {
+  /* ══ Focus trap ══ */
+  const focusables = () => [...modal.querySelectorAll(
+    'button:not([disabled]), input, [tabindex="0"]'
+  )].filter(el => !el.closest('[hidden]') && el.offsetParent !== null);
+
+  function trapFocus(e) {
+    if (e.key !== 'Tab') return;
+    const items = focusables();
+    const first = items[0];
+    const last  = items[items.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+    }
+  }
+
+  /* ══ Open / Close ══ */
+  function openModal(filter = 'all') {
+    setFilter(filter);
     modal.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
-    closeBtn && closeBtn.focus();
+    modal.addEventListener('keydown', trapFocus);
+    setTimeout(() => closeBtn && closeBtn.focus(), 50);
   }
+
   function closeModal() {
     modal.setAttribute('hidden', '');
     document.body.style.overflow = '';
-    openBtn && openBtn.focus();
+    modal.removeEventListener('keydown', trapFocus);
   }
 
-  on(openBtn,  'click',   openModal);
-  on(closeBtn, 'click',   closeModal);
-  on(backdrop, 'click',   closeModal);
+  /* Abrir desde las 3 cards */
+  openBtns.forEach(btn => {
+    on(btn, 'click', () => {
+      const f = btn.dataset.filter || 'all';
+      openModal(f);
+    });
+  });
+
+  on(closeBtn, 'click', closeModal);
+  on(backdrop, 'click', closeModal);
   on(document, 'keydown', e => {
     if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
   });
 
-  /* ── Filter ── */
+  /* ══ Filter ══ */
+  function setFilter(val) {
+    activeFilter = val;
+    filters.forEach(btn => {
+      const active = btn.dataset.filter === val;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active);
+    });
+    applyVisibility();
+  }
+
+  function applyVisibility() {
+    const query = searchEl ? searchEl.value.trim().toLowerCase() : '';
+    let visible = 0;
+
+    qsa('.rm2-file', grid).forEach(file => {
+      const typeMatch = activeFilter === 'all' || file.dataset.type === activeFilter;
+      const nameMatch = !query || file.dataset.name.toLowerCase().includes(query)
+                                || file.querySelector('.rm2-file-name')
+                                    .textContent.toLowerCase().includes(query);
+      const show = typeMatch && nameMatch;
+      file.dataset.hidden = show ? 'false' : 'true';
+      if (show) visible++;
+    });
+
+    if (emptyEl) emptyEl.hidden = visible > 0;
+    updateFooter();
+  }
+
   filters.forEach(btn => {
     on(btn, 'click', () => {
-      filters.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected','true');
-      currentFilter = btn.dataset.filter;
-      applyFilter();
-      // reset select-all when filter changes
+      setFilter(btn.dataset.filter);
       allSelected = false;
       updateSelectAllLabel();
     });
   });
 
-  function applyFilter() {
-    qsa('.rm-file', grid).forEach(file => {
-      const show = currentFilter === 'all' || file.dataset.type === currentFilter;
-      file.dataset.hidden = show ? 'false' : 'true';
+  /* ══ Search ══ */
+  if (searchEl) {
+    on(searchEl, 'input', () => {
+      applyVisibility();
+      allSelected = false;
+      updateSelectAllLabel();
     });
   }
 
-  /* ── Checkbox selection ── */
+  /* ══ Checkbox selection ══ */
   on(grid, 'change', e => {
-    const cb = e.target.closest('.rm-check');
+    const cb = e.target.closest('.rm2-check');
     if (!cb) return;
-    const fileEl = cb.closest('.rm-file');
-    fileEl.classList.toggle('selected', cb.checked);
+    cb.closest('.rm2-file').classList.toggle('selected', cb.checked);
+    allSelected = getVisibleSelected().length === getVisible().length && getVisible().length > 0;
+    updateSelectAllLabel();
     updateFooter();
   });
 
-  function getSelectedFiles() {
-    return qsa('.rm-file.selected', grid).map(el => ({
-      id:   el.dataset.id,
-      name: el.dataset.name,
-      size: el.dataset.size,
-      type: el.dataset.type,
+  function getVisible() {
+    return qsa('.rm2-file:not([data-hidden="true"])', grid);
+  }
+  function getVisibleSelected() {
+    return qsa('.rm2-file.selected:not([data-hidden="true"])', grid);
+  }
+  function getAllSelected() {
+    return qsa('.rm2-file.selected', grid).map(el => ({
+      id: el.dataset.id, name: el.dataset.name,
+      size: el.dataset.size, type: el.dataset.type,
     }));
   }
 
-  function updateFooter() {
-    const sel = getSelectedFiles();
-    const n   = sel.length;
-    if (n === 0) {
-      selText.textContent = 'Selecciona uno o más archivos para descargar';
-      dlOne.disabled = true;
-      dlZip.disabled = true;
-    } else if (n === 1) {
-      selText.textContent = `1 archivo seleccionado`;
-      dlOne.disabled = false;
-      dlZip.disabled = true;  // ZIP needs 2+
-      dlOne.textContent = '';
-      dlOne.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Descargar`;
-    } else {
-      selText.textContent = `${n} archivos seleccionados`;
-      dlOne.disabled = true;
-      dlZip.disabled = false;
-      dlZip.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/><path d="M3 9h18"/></svg> Descargar ${n} archivos (.ZIP)`;
-    }
-  }
-
-  /* ── Select All ── */
+  /* ══ Select All ══ */
   on(selAll, 'click', () => {
     allSelected = !allSelected;
-    const visible = qsa('.rm-file:not([data-hidden="true"])', grid);
-    visible.forEach(file => {
-      const cb = qs('.rm-check', file);
+    getVisible().forEach(file => {
+      const cb = qs('.rm2-check', file);
       cb.checked = allSelected;
       file.classList.toggle('selected', allSelected);
     });
@@ -551,195 +592,141 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   });
 
   function updateSelectAllLabel() {
-    selAll.innerHTML = allSelected
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Deseleccionar todo`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg> Seleccionar todo`;
+    if (selLabel) {
+      selLabel.textContent = allSelected ? 'Deseleccionar todo' : 'Seleccionar todo';
+    }
   }
 
-  /* ── Per-card single download ── */
+  /* ══ Footer update ══ */
+  function updateFooter() {
+    const sel = getAllSelected();
+    const n   = sel.length;
+
+    if (n === 0) {
+      selText.textContent = 'Selecciona archivos para descargar';
+      dlOne.disabled = true;
+      dlZip.disabled = true;
+    } else if (n === 1) {
+      selText.textContent = '1 archivo seleccionado';
+      dlOne.disabled = false;
+      dlZip.disabled = true;
+      if (zipLabel) zipLabel.textContent = 'Descargar ZIP';
+    } else {
+      selText.textContent = `${n} archivos seleccionados`;
+      dlOne.disabled = true;
+      dlZip.disabled = false;
+      if (zipLabel) zipLabel.textContent = `Descargar ${n} archivos (.ZIP)`;
+    }
+  }
+
+  /* ══ Per-card download ══ */
   on(grid, 'click', e => {
-    const singleBtn = e.target.closest('.rm-dl-single');
-    if (!singleBtn) return;
-    e.preventDefault();
-    const fileEl = singleBtn.closest('.rm-file');
-    const name   = fileEl.dataset.name;
-    const type   = fileEl.dataset.type;
-    downloadSingle(name, type);
+    const btn = e.target.closest('.rm2-dl-btn-single');
+    if (!btn) return;
+    e.stopPropagation();
+    const file = btn.closest('.rm2-file');
+    downloadSingle(file.dataset.name, file.dataset.type, btn);
   });
 
-  /* ── Footer download buttons ── */
+  /* ══ Footer actions ══ */
   on(dlOne, 'click', () => {
-    const sel = getSelectedFiles();
+    const sel = getAllSelected();
     if (sel.length !== 1) return;
-    downloadSingle(sel[0].name, sel[0].type);
+    downloadSingle(sel[0].name, sel[0].type, dlOne);
   });
 
   on(dlZip, 'click', async () => {
-    const sel = getSelectedFiles();
+    const sel = getAllSelected();
     if (sel.length < 2) return;
-
-    // Show loading state
-    dlZip.disabled = true;
     const orig = dlZip.innerHTML;
-    dlZip.innerHTML = `<svg style="animation:spin .6s linear infinite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Generando ZIP…`;
-
+    dlZip.disabled = true;
+    dlZip.innerHTML = `
+      <svg style="animation:spin .6s linear infinite" viewBox="0 0 24 24" 
+           fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83
+                 M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg> Generando…`;
     try {
-      const zipBytes = await buildZip(sel);
-      triggerDownload(zipBytes, 'ThomasCossio_Kit.zip', 'application/zip');
-    } catch(err) {
-      console.error('ZIP error:', err);
-    }
-
+      const bytes = await buildZip(sel);
+      triggerDownload(bytes, 'ThomasCossio_Kit.zip', 'application/zip');
+    } catch(err) { console.error(err); }
     dlZip.disabled = false;
     dlZip.innerHTML = orig;
   });
 
+  /* ══ Animated single download ══ */
+  function downloadSingle(name, type, btn) {
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<svg style="animation:spin .5s linear infinite" viewBox="0 0 24 24" 
+        fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>`;
+      setTimeout(() => {
+        const data = makeDemoContent(name, type);
+        const mime = type === 'pdf' ? 'application/pdf' : 'image/png';
+        triggerDownload(data, name, mime);
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2">
+          <path d="M5 13l4 4L19 7"/></svg>`;
+        setTimeout(() => { btn.innerHTML = orig; }, 1500);
+      }, 600);
+    } else {
+      const data = makeDemoContent(name, type);
+      const mime = type === 'pdf' ? 'application/pdf' : 'image/png';
+      triggerDownload(data, name, mime);
+    }
+  }
 
-  /* ════════════════════════════════════════════════
-     PURE JS ZIP GENERATOR (STORE method – no libs)
-  ════════════════════════════════════════════════ */
-
+  /* ══ ZIP builder (reutilizado del módulo anterior) ══ */
   function crc32(data) {
-    /* CRC-32 table (lazily built) */
-    if (!crc32.table) {
-      crc32.table = new Uint32Array(256);
+    if (!crc32.t) {
+      crc32.t = new Uint32Array(256);
       for (let i = 0; i < 256; i++) {
         let c = i;
         for (let j = 0; j < 8; j++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
-        crc32.table[i] = c;
+        crc32.t[i] = c;
       }
     }
     let crc = 0xFFFFFFFF;
-    for (let i = 0; i < data.length; i++) crc = crc32.table[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8);
+    for (let i = 0; i < data.length; i++) crc = crc32.t[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8);
     return (crc ^ 0xFFFFFFFF) >>> 0;
   }
-
-  function u16(val) { const b = new Uint8Array(2); new DataView(b.buffer).setUint16(0,val,true); return b; }
-  function u32(val) { const b = new Uint8Array(4); new DataView(b.buffer).setUint32(0,val,true); return b; }
-
+  const u16 = v => { const b = new Uint8Array(2); new DataView(b.buffer).setUint16(0,v,true); return b; };
+  const u32 = v => { const b = new Uint8Array(4); new DataView(b.buffer).setUint32(0,v,true); return b; };
   function concat(...arrays) {
-    const total  = arrays.reduce((s,a) => s + a.length, 0);
-    const result = new Uint8Array(total);
-    let pos = 0;
-    for (const a of arrays) { result.set(a, pos); pos += a.length; }
-    return result;
+    const t = arrays.reduce((s,a) => s+a.length, 0);
+    const r = new Uint8Array(t); let p = 0;
+    for (const a of arrays) { r.set(a, p); p += a.length; }
+    return r;
   }
-
-  /** Build a fake file blob for demo purposes */
   function makeDemoContent(name, type) {
     if (type === 'pdf') {
-      // Minimal valid PDF with the file name embedded
-      const content = `%PDF-1.4
-1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
-2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
-3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<<>>>>endobj
-xref
-0 4
-0000000000 65535 f
-0000000009 00000 n
-0000000058 00000 n
-0000000115 00000 n
-trailer<</Size 4/Root 1 0 R>>
-startxref
-190
-%%EOF
-% Thomas Cossio – ${name}`;
-      return new TextEncoder().encode(content);
-    } else {
-      // Minimal valid PNG (1×1 purple pixel)
-      const png = new Uint8Array([
-        0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A, // PNG signature
-        0x00,0x00,0x00,0x0D,0x49,0x48,0x44,0x52, // IHDR chunk length + type
-        0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01, // 1×1
-        0x08,0x02,0x00,0x00,0x00,0x90,0x77,0x53, // 8-bit RGB
-        0xDE,0x00,0x00,0x00,0x0C,0x49,0x44,0x41, // IDAT
-        0x54,0x08,0xD7,0x63,0xF8,0xCF,0xC0,0x00, // compressed data
-        0x00,0x00,0x02,0x00,0x01,0xE2,0x21,0xBC, // CRC
-        0x33,0x00,0x00,0x00,0x00,0x49,0x45,0x4E, // IEND
-        0x44,0xAE,0x42,0x60,0x82               // IEND CRC
-      ]);
-      return png;
+      return new TextEncoder().encode(`%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<<>>>>endobj\nxref\n0 4\ntrailer<</Size 4/Root 1 0 R>>\n%%EOF\n% ${name}`);
     }
+    return new Uint8Array([0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A,0x00,0x00,0x00,0x0D,0x49,0x48,0x44,0x52,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x08,0x02,0x00,0x00,0x00,0x90,0x77,0x53,0xDE,0x00,0x00,0x00,0x0C,0x49,0x44,0x41,0x54,0x08,0xD7,0x63,0xF8,0xCF,0xC0,0x00,0x00,0x00,0x02,0x00,0x01,0xE2,0x21,0xBC,0x33,0x00,0x00,0x00,0x00,0x49,0x45,0x4E,0x44,0xAE,0x42,0x60,0x82]);
   }
-
   async function buildZip(files) {
-    const enc       = new TextEncoder();
-    const localRecs = [];
-    const cdRecs    = [];
-    let   offset    = 0;
-
-    for (const file of files) {
-      const nameBytes = enc.encode(file.name);
-      const data      = makeDemoContent(file.name, file.type);
-      const crc       = crc32(data);
-      const size      = data.length;
-
-      /* Local file header */
-      const lh = concat(
-        new Uint8Array([0x50,0x4B,0x03,0x04]), // signature
-        u16(20), u16(0), u16(0),               // version, flags, compression(STORE)
-        u16(0), u16(0),                        // mod time, mod date
-        u32(crc), u32(size), u32(size),        // CRC, compressed, uncompressed sizes
-        u16(nameBytes.length), u16(0),         // filename len, extra len
-        nameBytes
-      );
-
-      /* Central directory entry */
-      const cd = concat(
-        new Uint8Array([0x50,0x4B,0x01,0x02]), // signature
-        u16(20), u16(20),                      // version made by, needed
-        u16(0), u16(0),                        // flags, compression
-        u16(0), u16(0),                        // mod time, mod date
-        u32(crc), u32(size), u32(size),
-        u16(nameBytes.length), u16(0), u16(0), // name len, extra len, comment len
-        u16(0), u16(0),                        // disk start, internal attrs
-        u32(0),                                // external attrs
-        u32(offset),                           // offset of local header
-        nameBytes
-      );
-
-      localRecs.push({ lh, data });
-      cdRecs.push(cd);
-      offset += lh.length + data.length;
+    const enc = new TextEncoder();
+    const lrs = [], cds = []; let off = 0;
+    for (const f of files) {
+      const nb = enc.encode(f.name), d = makeDemoContent(f.name, f.type);
+      const cr = crc32(d), sz = d.length;
+      const lh = concat(new Uint8Array([0x50,0x4B,0x03,0x04]),u16(20),u16(0),u16(0),u16(0),u16(0),u32(cr),u32(sz),u32(sz),u16(nb.length),u16(0),nb);
+      const cd = concat(new Uint8Array([0x50,0x4B,0x01,0x02]),u16(20),u16(20),u16(0),u16(0),u16(0),u16(0),u32(cr),u32(sz),u32(sz),u16(nb.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(off),nb);
+      lrs.push({lh,d}); cds.push(cd); off += lh.length + d.length;
     }
-
-    const cdSize  = cdRecs.reduce((s,c) => s + c.length, 0);
-    const cdStart = offset;
-
-    const eocd = concat(
-      new Uint8Array([0x50,0x4B,0x05,0x06]), // signature
-      u16(0), u16(0),                        // disk, disk with cd
-      u16(files.length), u16(files.length),  // entries on disk, total entries
-      u32(cdSize), u32(cdStart),             // CD size, CD offset
-      u16(0)                                 // comment length
-    );
-
-    const parts = [];
-    for (const { lh, data } of localRecs) parts.push(lh, data);
-    for (const cd of cdRecs) parts.push(cd);
-    parts.push(eocd);
-
-    return concat(...parts);
+    const cdsz = cds.reduce((s,c) => s+c.length, 0);
+    const eocd = concat(new Uint8Array([0x50,0x4B,0x05,0x06]),u16(0),u16(0),u16(files.length),u16(files.length),u32(cdsz),u32(off),u16(0));
+    const pts = [];
+    for (const {lh,d} of lrs) pts.push(lh,d);
+    for (const cd of cds) pts.push(cd);
+    pts.push(eocd);
+    return concat(...pts);
   }
-
-
-  /* ── Helper: trigger a file download ── */
-  function triggerDownload(data, filename, mimeType) {
-    const blob = new Blob([data], { type: mimeType });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  function triggerDownload(data, name, mime) {
+    const url = URL.createObjectURL(new Blob([data], {type: mime}));
+    const a = Object.assign(document.createElement('a'), {href: url, download: name});
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 60000);
-  }
-
-  function downloadSingle(name, type) {
-    const data = makeDemoContent(name, type);
-    const mime = type === 'pdf' ? 'application/pdf' : 'image/png';
-    triggerDownload(data, name, mime);
   }
 
 })();

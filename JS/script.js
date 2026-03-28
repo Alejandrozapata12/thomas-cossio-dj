@@ -17,16 +17,16 @@
 'use strict';
 
 /* ─── Helpers ─── */
-const qs  = (sel, ctx = document) => ctx.querySelector(sel);
+const qs = (sel, ctx = document) => ctx.querySelector(sel);
 const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
-const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
+const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
 
 /* ═══ 0. PRELOADER ═══ */
 (function initPreloader() {
-  const loader   = qs('#preloader');
-  const bar      = qs('#plBar');
-  const pct      = qs('#plPct');
+  const loader = qs('#preloader');
+  const bar = qs('#plBar');
+  const pct = qs('#plPct');
   const progress = qs('#plProgressBar');
   if (!loader) return;
 
@@ -35,7 +35,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
   let current = 0;
   const duration = 2200; // ms total
-  const steps    = 80;
+  const steps = 80;
   const interval = duration / steps;
 
   // Ease-in-out curve so it feels natural — fast start, slight pause near end
@@ -44,8 +44,8 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   let step = 0;
   const tick = setInterval(() => {
     step++;
-    const t   = step / steps;
-    current   = Math.round(easeInOut(t) * 100);
+    const t = step / steps;
+    current = Math.round(easeInOut(t) * 100);
     const val = Math.min(current, 100);
 
     bar.style.width = val + '%';
@@ -73,7 +73,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 /* ═══ 1. CUSTOM CURSOR ═══ */
 (function initCursor() {
   const cursor = qs('#cursor');
-  const trail  = qs('#cursorTrail');
+  const trail = qs('#cursorTrail');
   if (!cursor || !trail) return;
 
   // Only on non-touch devices
@@ -85,7 +85,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     mx = e.clientX;
     my = e.clientY;
     cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
+    cursor.style.top = my + 'px';
   });
 
   // Smooth trail with rAF
@@ -93,7 +93,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     tx += (mx - tx) * 0.3;
     ty += (my - ty) * 0.3;
     trail.style.left = tx + 'px';
-    trail.style.top  = ty + 'px';
+    trail.style.top = ty + 'px';
     requestAnimationFrame(animateTrail);
   })();
 
@@ -115,11 +115,11 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   // Hide when out of window
   on(document, 'mouseleave', () => {
     cursor.style.opacity = '0';
-    trail.style.opacity  = '0';
+    trail.style.opacity = '0';
   });
   on(document, 'mouseenter', () => {
     cursor.style.opacity = '1';
-    trail.style.opacity  = '1';
+    trail.style.opacity = '1';
   });
 })();
 
@@ -127,12 +127,12 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 /* ═══ 2. NAVIGATION ═══ */
 /* ═══ 2. NAVIGATION ═══ */
 (function initNav() {
-  const nav       = qs('#nav');
-  const burger    = qs('#navBurger');
-  const drawer    = qs('#mobileDrawer');
-  const backdrop  = qs('#drawerBackdrop');
-  const closeBtn  = qs('#drawerClose');
-  const links     = qsa('.drawer-link');
+  const nav = qs('#nav');
+  const burger = qs('#navBurger');
+  const drawer = qs('#mobileDrawer');
+  const backdrop = qs('#drawerBackdrop');
+  const closeBtn = qs('#drawerClose');
+  const links = qsa('.drawer-link');
 
   // Scroll class en nav
   const updateNav = () => {
@@ -161,7 +161,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   }
 
   if (burger && drawer) {
-    on(burger,   'click', openDrawer);
+    on(burger, 'click', openDrawer);
     on(closeBtn, 'click', closeDrawer);
     on(backdrop, 'click', closeDrawer);
 
@@ -225,7 +225,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 /* ═══ 4. ACTIVE NAV LINK ═══ */
 (function initActiveLink() {
   const sections = qsa('section[id]');
-  const links    = qsa('.nav-link');
+  const links = qsa('.nav-link');
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -253,12 +253,12 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   const easeOut = t => 1 - Math.pow(1 - t, 3);
 
   function animateCounter(el) {
-    const target   = parseInt(el.dataset.target, 10);
+    const target = parseInt(el.dataset.target, 10);
     const duration = 1800;
-    const start    = performance.now();
+    const start = performance.now();
 
     function step(now) {
-      const elapsed  = now - start;
+      const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
       el.textContent = Math.round(easeOut(progress) * target);
       if (progress < 1) requestAnimationFrame(step);
@@ -283,10 +283,10 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
 /* ═══ 6. VIDEO MODAL ═══ */
 (function initVideoModal() {
-  const modal    = qs('#videoModal');
+  const modal = qs('#videoModal');
   const backdrop = qs('#modalBackdrop');
   const closeBtn = qs('#modalClose');
-  const embed    = qs('#modalEmbed');
+  const embed = qs('#modalEmbed');
 
   if (!modal || !embed) return;
 
@@ -313,23 +313,23 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     on(thumb, 'keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
   });
 
-  on(closeBtn,   'click', closeModal);
-  on(backdrop,   'click', closeModal);
-  on(document,   'keydown', e => { if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal(); });
+  on(closeBtn, 'click', closeModal);
+  on(backdrop, 'click', closeModal);
+  on(document, 'keydown', e => { if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal(); });
 })();
 
 
 /* ═══ 7. CONTACT FORM VALIDATION ═══ */
 (function initContactForm() {
-  const form    = qs('#contactForm');
+  const form = qs('#contactForm');
   const success = qs('#formSuccess');
   if (!form) return;
 
   const rules = {
-    nombre:  { required: true, minLen: 2,   msg: 'Por favor ingresa tu nombre (mínimo 2 caracteres).' },
-    email:   { required: true, email: true,  msg: 'Por favor ingresa un correo electrónico válido.' },
-    evento:  { required: true,               msg: 'Por favor selecciona el tipo de evento.' },
-    mensaje: { required: true, minLen: 10,  msg: 'Cuéntanos más sobre tu evento (mínimo 10 caracteres).' },
+    nombre: { required: true, minLen: 2, msg: 'Por favor ingresa tu nombre (mínimo 2 caracteres).' },
+    email: { required: true, email: true, msg: 'Por favor ingresa un correo electrónico válido.' },
+    evento: { required: true, msg: 'Por favor selecciona el tipo de evento.' },
+    mensaje: { required: true, minLen: 10, msg: 'Cuéntanos más sobre tu evento (mínimo 10 caracteres).' },
   };
 
   function isEmail(val) {
@@ -340,8 +340,8 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     const r = rules[name];
     if (!r) return null;
     if (r.required && !val.trim()) return r.msg;
-    if (r.email    && !isEmail(val)) return r.msg;
-    if (r.minLen   && val.trim().length < r.minLen) return r.msg;
+    if (r.email && !isEmail(val)) return r.msg;
+    if (r.minLen && val.trim().length < r.minLen) return r.msg;
     return null;
   }
 
@@ -361,7 +361,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   qsa('[name]', form).forEach(field => {
     on(field, 'blur', () => {
       const group = field.closest('.form-group');
-      const err   = validate(field.name, field.value);
+      const err = validate(field.name, field.value);
       err ? showError(group, err) : clearError(group);
     });
     on(field, 'input', () => {
@@ -382,9 +382,9 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
       const field = form.elements[name];
       if (!field) return;
       const group = field.closest('.form-group');
-      const err   = validate(name, field.value);
+      const err = validate(name, field.value);
       if (err) { showError(group, err); valid = false; }
-      else      { clearError(group); }
+      else { clearError(group); }
     });
 
     if (!valid) {
@@ -442,27 +442,27 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 (function initRecursosV2() {
 
   /* ── DOM ── */
-  const modal     = qs('#rm2Modal');
-  const backdrop  = qs('#rm2Backdrop');
-  const closeBtn  = qs('#rm2Close');
-  const grid      = qs('#rm2Grid');
-  const searchEl  = qs('#rm2Search');
-  const filters   = qsa('.rm2-filter');
-  const selAll    = qs('#rm2SelectAll');
-  const selLabel  = qs('#rm2SelectLabel');
-  const selText   = qs('#rm2SelText');
-  const dlOne     = qs('#rm2DlOne');
-  const dlZip     = qs('#rm2DlZip');
-  const zipLabel  = qs('#rm2ZipLabel');
-  const emptyEl   = qs('#rm2Empty');
+  const modal = qs('#rm2Modal');
+  const backdrop = qs('#rm2Backdrop');
+  const closeBtn = qs('#rm2Close');
+  const grid = qs('#rm2Grid');
+  const searchEl = qs('#rm2Search');
+  const filters = qsa('.rm2-filter');
+  const selAll = qs('#rm2SelectAll');
+  const selLabel = qs('#rm2SelectLabel');
+  const selText = qs('#rm2SelText');
+  const dlOne = qs('#rm2DlOne');
+  const dlZip = qs('#rm2DlZip');
+  const zipLabel = qs('#rm2ZipLabel');
+  const emptyEl = qs('#rm2Empty');
 
   /* Botones de apertura */
-  const openBtns  = qsa('#openRecursos, #openRecursosPdf, #openRecursosAll');
+  const openBtns = qsa('#openRecursos, #openRecursosPdf, #openRecursosAll');
 
   if (!modal || !grid) return;
 
   let activeFilter = 'all';
-  let allSelected  = false;
+  let allSelected = false;
 
   /* ══ Focus trap ══ */
   const focusables = () => [...modal.querySelectorAll(
@@ -473,11 +473,11 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     if (e.key !== 'Tab') return;
     const items = focusables();
     const first = items[0];
-    const last  = items[items.length - 1];
+    const last = items[items.length - 1];
     if (e.shiftKey) {
       if (document.activeElement === first) { e.preventDefault(); last.focus(); }
     } else {
-      if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
     }
   }
 
@@ -528,8 +528,8 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     qsa('.rm2-file', grid).forEach(file => {
       const typeMatch = activeFilter === 'all' || file.dataset.type === activeFilter;
       const nameMatch = !query || file.dataset.name.toLowerCase().includes(query)
-                                || file.querySelector('.rm2-file-name')
-                                    .textContent.toLowerCase().includes(query);
+        || file.querySelector('.rm2-file-name')
+          .textContent.toLowerCase().includes(query);
       const show = typeMatch && nameMatch;
       file.dataset.hidden = show ? 'false' : 'true';
       if (show) visible++;
@@ -600,7 +600,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   /* ══ Footer update ══ */
   function updateFooter() {
     const sel = getAllSelected();
-    const n   = sel.length;
+    const n = sel.length;
 
     if (n === 0) {
       selText.textContent = 'Selecciona archivos para descargar';
@@ -649,7 +649,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     try {
       const bytes = await buildZip(sel);
       triggerDownload(bytes, 'ThomasCossio_Kit.zip', 'application/zip');
-    } catch(err) { console.error(err); }
+    } catch (err) { console.error(err); }
     dlZip.disabled = false;
     dlZip.innerHTML = orig;
   });
@@ -690,10 +690,10 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     for (let i = 0; i < data.length; i++) crc = crc32.t[(crc ^ data[i]) & 0xFF] ^ (crc >>> 8);
     return (crc ^ 0xFFFFFFFF) >>> 0;
   }
-  const u16 = v => { const b = new Uint8Array(2); new DataView(b.buffer).setUint16(0,v,true); return b; };
-  const u32 = v => { const b = new Uint8Array(4); new DataView(b.buffer).setUint32(0,v,true); return b; };
+  const u16 = v => { const b = new Uint8Array(2); new DataView(b.buffer).setUint16(0, v, true); return b; };
+  const u32 = v => { const b = new Uint8Array(4); new DataView(b.buffer).setUint32(0, v, true); return b; };
   function concat(...arrays) {
-    const t = arrays.reduce((s,a) => s+a.length, 0);
+    const t = arrays.reduce((s, a) => s + a.length, 0);
     const r = new Uint8Array(t); let p = 0;
     for (const a of arrays) { r.set(a, p); p += a.length; }
     return r;
@@ -702,7 +702,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     if (type === 'pdf') {
       return new TextEncoder().encode(`%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R/Resources<<>>>>endobj\nxref\n0 4\ntrailer<</Size 4/Root 1 0 R>>\n%%EOF\n% ${name}`);
     }
-    return new Uint8Array([0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A,0x00,0x00,0x00,0x0D,0x49,0x48,0x44,0x52,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x08,0x02,0x00,0x00,0x00,0x90,0x77,0x53,0xDE,0x00,0x00,0x00,0x0C,0x49,0x44,0x41,0x54,0x08,0xD7,0x63,0xF8,0xCF,0xC0,0x00,0x00,0x00,0x02,0x00,0x01,0xE2,0x21,0xBC,0x33,0x00,0x00,0x00,0x00,0x49,0x45,0x4E,0x44,0xAE,0x42,0x60,0x82]);
+    return new Uint8Array([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE, 0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41, 0x54, 0x08, 0xD7, 0x63, 0xF8, 0xCF, 0xC0, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0xE2, 0x21, 0xBC, 0x33, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82]);
   }
   async function buildZip(files) {
     const enc = new TextEncoder();
@@ -710,21 +710,21 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
     for (const f of files) {
       const nb = enc.encode(f.name), d = makeDemoContent(f.name, f.type);
       const cr = crc32(d), sz = d.length;
-      const lh = concat(new Uint8Array([0x50,0x4B,0x03,0x04]),u16(20),u16(0),u16(0),u16(0),u16(0),u32(cr),u32(sz),u32(sz),u16(nb.length),u16(0),nb);
-      const cd = concat(new Uint8Array([0x50,0x4B,0x01,0x02]),u16(20),u16(20),u16(0),u16(0),u16(0),u16(0),u32(cr),u32(sz),u32(sz),u16(nb.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(off),nb);
-      lrs.push({lh,d}); cds.push(cd); off += lh.length + d.length;
+      const lh = concat(new Uint8Array([0x50, 0x4B, 0x03, 0x04]), u16(20), u16(0), u16(0), u16(0), u16(0), u32(cr), u32(sz), u32(sz), u16(nb.length), u16(0), nb);
+      const cd = concat(new Uint8Array([0x50, 0x4B, 0x01, 0x02]), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0), u32(cr), u32(sz), u32(sz), u16(nb.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(off), nb);
+      lrs.push({ lh, d }); cds.push(cd); off += lh.length + d.length;
     }
-    const cdsz = cds.reduce((s,c) => s+c.length, 0);
-    const eocd = concat(new Uint8Array([0x50,0x4B,0x05,0x06]),u16(0),u16(0),u16(files.length),u16(files.length),u32(cdsz),u32(off),u16(0));
+    const cdsz = cds.reduce((s, c) => s + c.length, 0);
+    const eocd = concat(new Uint8Array([0x50, 0x4B, 0x05, 0x06]), u16(0), u16(0), u16(files.length), u16(files.length), u32(cdsz), u32(off), u16(0));
     const pts = [];
-    for (const {lh,d} of lrs) pts.push(lh,d);
+    for (const { lh, d } of lrs) pts.push(lh, d);
     for (const cd of cds) pts.push(cd);
     pts.push(eocd);
     return concat(...pts);
   }
   function triggerDownload(data, name, mime) {
-    const url = URL.createObjectURL(new Blob([data], {type: mime}));
-    const a = Object.assign(document.createElement('a'), {href: url, download: name});
+    const url = URL.createObjectURL(new Blob([data], { type: mime }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: name });
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   }
@@ -740,14 +740,14 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   const hero = qs('.hero');
   if (!hero) return;
 
-  const orb1 = qs('.orb-1', hero);
-  const orb2 = qs('.orb-2', hero);
-  const orb3 = qs('.orb-3', hero);
+  const orb1 = qs('.orb-1');
+  const orb2 = qs('.orb-2');
+  const orb3 = qs('.orb-3');
 
   on(hero, 'mousemove', e => {
     const { width, height, left, top } = hero.getBoundingClientRect();
-    const cx = (e.clientX - left - width  / 2) / width;
-    const cy = (e.clientY - top  - height / 2) / height;
+    const cx = (e.clientX - left - width / 2) / width;
+    const cy = (e.clientY - top - height / 2) / height;
 
     orb1 && (orb1.style.transform = `translate(${cx * 30}px, ${cy * 20}px)`);
     orb2 && (orb2.style.transform = `translate(${cx * -25}px, ${cy * -15}px)`);
@@ -778,24 +778,24 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
 
 /* ═══ 11. GALERÍA CAROUSEL ═══ */
 (function initGaleriaCarousel() {
-  const track    = qs('#gcTrack');
+  const track = qs('#gcTrack');
   if (!track) return;
 
-  const slides   = qsa('.gc-slide', track);
-  const dots     = qsa('.gc-dot');
-  const prevBtn  = qs('#gcPrev');
-  const nextBtn  = qs('#gcNext');
-  const bar      = qs('#gcProgressBar');
-  const current  = qs('#gcCurrent');
+  const slides = qsa('.gc-slide', track);
+  const dots = qsa('.gc-dot');
+  const prevBtn = qs('#gcPrev');
+  const nextBtn = qs('#gcNext');
+  const bar = qs('#gcProgressBar');
+  const current = qs('#gcCurrent');
 
-  const TOTAL    = slides.length;
+  const TOTAL = slides.length;
   const INTERVAL = 5000; // ms entre slides
 
-  let idx        = 0;
-  let timer      = null;
-  let progTimer  = null;
-  let paused     = false;
-  let startX     = 0;
+  let idx = 0;
+  let timer = null;
+  let progTimer = null;
+  let paused = false;
+  let startX = 0;
 
   /* ── Ir a slide ── */
   function goTo(next) {
@@ -898,7 +898,7 @@ const on  = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts);
   /* ── Teclado (accesibilidad) ── */
   on(document, 'keydown', e => {
     if (e.key === 'ArrowRight') { goTo(idx + 1); startAutoplay(); }
-    if (e.key === 'ArrowLeft')  { goTo(idx - 1); startAutoplay(); }
+    if (e.key === 'ArrowLeft') { goTo(idx - 1); startAutoplay(); }
   });
 
   /* ── Pausa si el tab no está visible ── */
